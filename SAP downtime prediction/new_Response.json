@@ -1,0 +1,46 @@
+{
+  "count": 5,
+  "predictions": [
+    {
+      "alertTimestamp": "2025-08-11 12:44:13",
+      "errorType": "503",
+      "plantCode": "NE03",
+      "probError": 0.1338,
+      "stageCode": "Auto-Invoice",
+      "timeToError": "5 mins"
+    },
+    {
+      "alertTimestamp": "2025-08-11 12:44:13",
+      "errorType": "503",
+      "plantCode": "NT60",
+      "probError": 0.2991,
+      "stageCode": "Auto-Invoice",
+      "timeToError": "5 mins"
+    },
+    {
+      "alertTimestamp": "2025-08-11 12:44:13",
+      "errorType": "No Response",
+      "plantCode": "NT60",
+      "probError": 0.3847,
+      "stageCode": "WO",
+      "timeToError": "5 mins"
+    },
+    {
+      "alertTimestamp": "2025-08-11 12:44:13",
+      "errorType": "503",
+      "plantCode": "NE25",
+      "probError": 0.1386,
+      "stageCode": "Auto-Invoice",
+      "timeToError": "5 mins"
+    },
+    {
+      "alertTimestamp": "2025-08-11 12:44:13",
+      "errorType": "503",
+      "plantCode": "N212",
+      "probError": 0.1903,
+      "stageCode": "Auto-Invoice",
+      "timeToError": "5 mins"
+    }
+  ]
+}
+
