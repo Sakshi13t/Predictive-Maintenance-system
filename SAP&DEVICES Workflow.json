@@ -1,0 +1,247 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "6ca0c506-04e7-4f8d-b8e0-1f1aecf6d6e2",
+        "options": {
+          "rawBody": true
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        224,
+        -240
+      ],
+      "id": "45463605-990f-4d5d-93d1-b37d3473563b",
+      "name": "Webhook",
+      "webhookId": "6ca0c506-04e7-4f8d-b8e0-1f1aecf6d6e2"
+    },
+    {
+      "parameters": {
+        "toRecipients": "sakshi.tandon@amzbizsol.in",
+        "subject": "=⚠️ Predicted Downtime Alert: {{ $json.device_name }} at {{ $json.plant_name }}",
+        "bodyContent": "=<h2 style=\"color: #d9534f;\">🚨 Device Downtime Alert</h2>\n\n<table style=\"border-collapse: collapse; width: 100%; font-family: Arial, sans-serif;\">\n  <tr style=\"background-color: #f2f2f2;\">\n    <th style=\"text-align: left; padding: 8px;\">Field</th>\n    <th style=\"text-align: left; padding: 8px;\">Value</th>\n  </tr>\n  <tr>\n    <td style=\"padding: 8px;\">Device</td>\n    <td style=\"padding: 8px;\"><strong>{{ $json.device_name }}</strong></td>\n  </tr>\n  <tr>\n    <td style=\"padding: 8px;\">IP Address</td>\n    <td style=\"padding: 8px;\">{{ $json.device_ip }}</td>\n  </tr>\n  <tr>\n    <td style=\"padding: 8px;\">Plant</td>\n    <td style=\"padding: 8px;\">{{ $json.plant_name }}</td>\n  </tr>\n  <tr>\n    <td style=\"padding: 8px;\">Location</td>\n    <td style=\"padding: 8px;\">{{ $json.location_name }}</td>\n  </tr>\n  <tr>\n    <td style=\"padding: 8px;\">Predicted Downtime (minutes)</td>\n    <td style=\"padding: 8px;\">{{ $json.predicted_downtime_minutes }}</td>\n  </tr>\n  <tr>\n    <td style=\"padding: 8px;\">Failure Probability</td>\n    <td style=\"padding: 8px;\">{{ $json.is_failure_prob }}</td>\n  </tr>\n  <tr>\n    <td style=\"padding: 8px;\">Timestamp</td>\n    <td style=\"padding: 8px;\">{{ $json.alertTimestamp }}</td>\n  </tr>\n</table>\n\n<p style=\"margin-top: 20px; font-size: 13px; color: #888;\">\nThis is an automated alert. Please take necessary actions promptly.\n</p>\n",
+        "additionalFields": {
+          "bodyContentType": "html"
+        }
+      },
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        752,
+        -240
+      ],
+      "id": "25571a4d-e0c2-425b-b08e-70b092972091",
+      "name": "Send a message",
+      "webhookId": "90c9618d-6aa3-4a78-b1ed-b10a7ccdf8fa",
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "pd2JByuHWsKmK9ia",
+          "name": "Microsoft Outlook account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5a8ccee2-5e7c-4a93-8db9-07dd70011b47",
+              "name": "device_name",
+              "value": "={{ $json.body.device_name }}",
+              "type": "string"
+            },
+            {
+              "id": "685a9188-f4d5-4106-a832-28610c0b8e7f",
+              "name": "device_ip",
+              "value": "=\t{{ $json.body.device_ip }}",
+              "type": "string"
+            },
+            {
+              "id": "6e9e9d83-23ac-440d-90c0-d3a4cccaa6ef",
+              "name": "plant_name",
+              "value": "={{ $json.body.plant_name }}",
+              "type": "string"
+            },
+            {
+              "id": "f3fc31e8-fd59-46b1-8f22-a3072bd7ffe3",
+              "name": "location_name",
+              "value": "={{ $json.body.location_name }}",
+              "type": "string"
+            },
+            {
+              "id": "accfbf8e-d259-4a59-9ae3-170432e10405",
+              "name": "predicted_downtime_minutes",
+              "value": "={{ $json.body.predicted_downtime_minutes }}",
+              "type": "number"
+            },
+            {
+              "id": "ee28f384-838d-4e3a-ae70-536a4d34a6ed",
+              "name": "is_failure_prob",
+              "value": "={{ $json.body.is_failure_prob }}",
+              "type": "number"
+            },
+            {
+              "id": "dde96292-80fe-4070-b43c-704389fe063b",
+              "name": "alertTimestamp",
+              "value": "={{ $json.body.alertTimestamp }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        480,
+        -240
+      ],
+      "id": "7cde60bc-4ea4-45bb-93d7-a4a934320e0a",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "/sap-alert-email",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -784,
+        -400
+      ],
+      "id": "910eb138-25a5-4193-9dd8-76d0e861ff9e",
+      "name": "Webhook1",
+      "webhookId": "f17a32d8-74c5-47b5-8db7-ffff6ac2da04"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "/device-alert-email",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -224,
+        208
+      ],
+      "id": "ca060fc0-5ed8-4af3-b676-242e2f8c18fe",
+      "name": "Webhook3",
+      "webhookId": "b6323486-29b5-44e6-89d5-3434806585db"
+    },
+    {
+      "parameters": {
+        "toRecipients": "={{ $json[\"body\"][\"to\"] }}",
+        "subject": "={{ $json[\"body\"][\"subject\"] }}\n",
+        "bodyContent": "={{ $json[\"body\"][\"body\"] }}",
+        "additionalFields": {
+          "bodyContentType": "html"
+        }
+      },
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        -576,
+        -400
+      ],
+      "id": "dd63b6d3-2494-4c9d-93fc-d5fc215418a7",
+      "name": "Send a message(SAP ALERT MAIL)",
+      "webhookId": "10ede6d1-40bf-4253-b3cc-efcaff81c26c",
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "pd2JByuHWsKmK9ia",
+          "name": "Microsoft Outlook account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toRecipients": "={{ $json[\"body\"][\"to\"] }}",
+        "subject": "={{ $json[\"body\"][\"subject\"] }}",
+        "bodyContent": "={{ $json[\"body\"][\"body\"] }}",
+        "additionalFields": {
+          "bodyContentType": "html"
+        }
+      },
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        -64,
+        80
+      ],
+      "id": "b7d503e5-8b82-474b-859c-63833702bb3f",
+      "name": "Send a message(DEVICE-ALERT-MAIL)",
+      "webhookId": "89bd1fe0-b4ab-43db-9b15-597102c41cd2",
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "pd2JByuHWsKmK9ia",
+          "name": "Microsoft Outlook account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "Send a message(SAP ALERT MAIL)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook3": {
+      "main": [
+        [
+          {
+            "node": "Send a message(DEVICE-ALERT-MAIL)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "d0ce67b5-6c3e-49ab-8891-ebed11cccb30",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "49157ed37751b4220a580aac452b459322b055298376ff953601114815d758d0"
+  },
+  "id": "ClD9yPMvWSlZOknv",
+  "tags": []
+}
