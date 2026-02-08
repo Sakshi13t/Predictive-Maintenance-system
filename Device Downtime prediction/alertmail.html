@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+        h2 {
+            color: #2E86C1;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center
+        }
+        th {
+            font-weight: bold;
+            color: white;
+            background-color: #007bff;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .footer {
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <h2>Device Downtime Prediction Alerts</h2>
+    <p>The following potential downtimes have been detected for <b>Plant: {{ plant }}</b>:</p>
+
+    <table>
+        <tr>
+            <th>Stage Code</th>
+            <th>Stage Name</th>
+            <th>Device IP</th>
+            <th>Device Name</th>
+            <th>Predicted Downtime (min)</th>
+            <th>Failure Probability</th>
+            <th>Predicted At</th>
+        </tr>
+        {% for device in alerts %}
+        <tr>
+            <td>{{ device.location_code }}</td>
+            <td>{{ device.location_name }}</td>
+            <td>{{ device.device_ip }}</td>
+            <td>{{ device.device_name }}</td>
+            <td>{{ device.predicted_downtime_minutes | round(2) }}</td>
+            <td>{{ (device.is_failure_prob * 100) | round(1) }}%</td>
+            <td>{{ now.strftime("%Y-%m-%d %H:%M:%S") }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <footer>
+        <p>This is an automated alert. Please take necessary actions.</p>
+        <p>We request that you investigate the cause of this issue and take necessary steps to resolve it promptly to avoid future disruptions.</p>
+        <p class="footer">Best regards,</p>
+        <p class="footer">PLMS Monitoring Team</p>
+    </footer>
+</body>
+</html>
